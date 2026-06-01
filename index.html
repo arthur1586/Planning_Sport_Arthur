@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Planning Sport</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Planning Sport">
@@ -23,7 +26,6 @@
     --primary-light: #4a7d6e;
     --primary-dark: #1f4338;
     --accent: #87a878;
-    --accent-light: #a8c499;
     --bg: #f5f7f4;
     --bg-gradient: linear-gradient(135deg, #f5f7f4 0%, #e8efe5 100%);
     --card: #ffffff;
@@ -43,10 +45,7 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
+  .container { max-width: 1200px; margin: 0 auto; }
 
   .header {
     text-align: center;
@@ -71,20 +70,8 @@
     border-radius: 50%;
   }
 
-  .header h1 {
-    font-size: 1.7rem;
-    font-weight: 800;
-    margin-bottom: 6px;
-    letter-spacing: -0.5px;
-    position: relative;
-  }
-
-  .header .week-info {
-    color: rgba(255,255,255,0.9);
-    font-size: 0.9rem;
-    font-weight: 500;
-    position: relative;
-  }
+  .header h1 { font-size: 1.7rem; font-weight: 800; margin-bottom: 6px; letter-spacing: -0.5px; position: relative; }
+  .header .week-info { color: rgba(255,255,255,0.9); font-size: 0.9rem; font-weight: 500; position: relative; }
 
   .coach-info {
     margin-top: 10px;
@@ -95,21 +82,11 @@
     padding: 4px 12px;
     background: rgba(255,255,255,0.15);
     border-radius: 20px;
-    backdrop-filter: blur(10px);
   }
 
-  .coach-info strong {
-    color: white;
-    font-weight: 700;
-  }
+  .coach-info strong { color: white; font-weight: 700; }
 
-  .stats-bar {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 24px;
-    flex-wrap: wrap;
-  }
+  .stats-bar { display: flex; justify-content: center; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
 
   .stat-pill {
     background: white;
@@ -125,19 +102,9 @@
     border: 1px solid var(--border);
   }
 
-  .stat-pill .stat-num {
-    color: var(--primary);
-    font-size: 1.1rem;
-    font-weight: 800;
-  }
+  .stat-pill .stat-num { color: var(--primary); font-size: 1.1rem; font-weight: 800; }
 
-  .actions-bar {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin-bottom: 28px;
-    flex-wrap: wrap;
-  }
+  .actions-bar { display: flex; gap: 10px; justify-content: center; margin-bottom: 28px; flex-wrap: wrap; }
 
   .btn {
     padding: 12px 20px;
@@ -153,37 +120,13 @@
     -webkit-appearance: none;
   }
 
-  .btn:active {
-    transform: scale(0.97);
-  }
+  .btn:active { transform: scale(0.97); }
+  .btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(45, 90, 79, 0.25); }
+  .btn-primary:hover { background: var(--primary-light); }
+  .btn-coach { background: #25D366; color: white; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3); }
+  .btn-secondary { background: var(--card); color: var(--primary); border: 1.5px solid var(--border); }
 
-  .btn-primary {
-    background: var(--primary);
-    color: white;
-    box-shadow: 0 4px 12px rgba(45, 90, 79, 0.25);
-  }
-
-  .btn-primary:hover {
-    background: var(--primary-light);
-  }
-
-  .btn-coach {
-    background: #25D366;
-    color: white;
-    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
-  }
-
-  .btn-secondary {
-    background: var(--card);
-    color: var(--primary);
-    border: 1.5px solid var(--border);
-  }
-
-  .week-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-    gap: 14px;
-  }
+  .week-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 14px; }
 
   .day-card {
     background: var(--card);
@@ -199,44 +142,21 @@
   .day-card::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: 0; left: 0; right: 0;
     height: 4px;
     background: linear-gradient(90deg, var(--accent) 0%, var(--primary-light) 100%);
     opacity: 0;
     transition: opacity 0.3s;
   }
 
-  .day-card.has-content::before {
-    opacity: 1;
-  }
-
-  .day-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-hover);
-  }
-
-  .day-card.disabled {
-    background: #ececec;
-    opacity: 0.7;
-  }
-
-  .day-card.disabled::before {
-    background: var(--text-light);
-    opacity: 1;
-  }
-
-  .day-card.disabled .day-name {
-    color: var(--text-light);
-    text-decoration: line-through;
-  }
-
+  .day-card.has-content::before { opacity: 1; }
+  .day-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+  .day-card.disabled { background: #ececec; opacity: 0.7; }
+  .day-card.disabled::before { background: var(--text-light); opacity: 1; }
+  .day-card.disabled .day-name { color: var(--text-light); text-decoration: line-through; }
   .day-card.disabled .session,
   .day-card.disabled .empty-state,
-  .day-card.disabled .icon-btn.add {
-    display: none;
-  }
+  .day-card.disabled .icon-btn.add { display: none; }
 
   .disabled-label {
     display: none;
@@ -247,9 +167,7 @@
     font-weight: 600;
   }
 
-  .day-card.disabled .disabled-label {
-    display: block;
-  }
+  .day-card.disabled .disabled-label { display: block; }
 
   .day-header {
     display: flex;
@@ -271,11 +189,7 @@
     gap: 6px;
   }
 
-  .day-actions {
-    display: flex;
-    gap: 6px;
-    align-items: center;
-  }
+  .day-actions { display: flex; gap: 6px; align-items: center; }
 
   .icon-btn {
     background: var(--bg);
@@ -293,34 +207,12 @@
     transition: all 0.2s;
   }
 
-  .icon-btn:active {
-    transform: scale(0.9);
-  }
-
-  .icon-btn:hover {
-    background: var(--accent);
-    color: white;
-  }
-
-  .icon-btn.add {
-    font-size: 1.3rem;
-    background: var(--primary);
-    color: white;
-  }
-
-  .icon-btn.add:hover {
-    background: var(--primary-light);
-  }
-
-  .icon-btn:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
-  }
-
-  .icon-btn.active {
-    background: var(--primary);
-    color: white;
-  }
+  .icon-btn:active { transform: scale(0.9); }
+  .icon-btn:hover { background: var(--accent); color: white; }
+  .icon-btn.add { font-size: 1.3rem; background: var(--primary); color: white; }
+  .icon-btn.add:hover { background: var(--primary-light); }
+  .icon-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .icon-btn.active { background: var(--primary); color: white; }
 
   .session {
     background: linear-gradient(135deg, #f8faf6 0%, #eef3ea 100%);
@@ -332,10 +224,7 @@
     transition: all 0.2s;
   }
 
-  .session.complete {
-    background: linear-gradient(135deg, #e8f0e2 0%, #d8e6d0 100%);
-    border-color: var(--accent);
-  }
+  .session.complete { background: linear-gradient(135deg, #e8f0e2 0%, #d8e6d0 100%); border-color: var(--accent); }
 
   .session.compact {
     padding: 10px 12px;
@@ -345,9 +234,7 @@
   }
 
   .session.compact .session-header,
-  .session.compact .select-group {
-    display: none;
-  }
+  .session.compact .select-group { display: none; }
 
   .session.compact .session-summary {
     display: flex;
@@ -360,13 +247,7 @@
     gap: 8px;
   }
 
-  .session.compact .summary-left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex: 1;
-    min-width: 0;
-  }
+  .session.compact .summary-left { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
 
   .session.compact .summary-text {
     overflow: hidden;
@@ -390,12 +271,7 @@
     flex-shrink: 0;
   }
 
-  .session.compact .compact-actions {
-    display: flex;
-    gap: 2px;
-    align-items: center;
-    flex-shrink: 0;
-  }
+  .session.compact .compact-actions { display: flex; gap: 2px; align-items: center; flex-shrink: 0; }
 
   .session.compact .edit-btn {
     background: none;
@@ -408,25 +284,11 @@
     transition: all 0.2s;
   }
 
-  .session.compact .edit-btn:hover {
-    background: white;
-    color: var(--primary);
-  }
+  .session.compact .edit-btn:hover { background: white; color: var(--primary); }
+  .session.compact:active { transform: scale(0.98); }
+  .session:last-child { margin-bottom: 0; }
 
-  .session.compact:active {
-    transform: scale(0.98);
-  }
-
-  .session:last-child {
-    margin-bottom: 0;
-  }
-
-  .session-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-  }
+  .session-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 
   .moment-badge {
     font-size: 0.7rem;
@@ -452,13 +314,8 @@
     font-size: 0.95rem;
   }
 
-  .session.complete .session-summary {
-    display: flex;
-  }
-
-  .session-summary .sport-emoji {
-    font-size: 1.4rem;
-  }
+  .session.complete .session-summary { display: flex; }
+  .session-summary .sport-emoji { font-size: 1.4rem; }
 
   .delete-btn {
     background: none;
@@ -471,16 +328,9 @@
     transition: all 0.2s;
   }
 
-  .delete-btn:hover {
-    background: #ffe5e5;
-    color: #c44;
-  }
+  .delete-btn:hover { background: #ffe5e5; color: #c44; }
 
-  .select-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
+  .select-group { display: flex; flex-direction: column; gap: 8px; }
 
   select {
     width: 100%;
@@ -500,11 +350,7 @@
     background-position: right 12px center;
   }
 
-  select:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(45, 90, 79, 0.1);
-  }
+  select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(45, 90, 79, 0.1); }
 
   .empty-state {
     text-align: center;
@@ -515,20 +361,8 @@
     opacity: 0.7;
   }
 
-  .reason-select {
-    margin-top: 12px;
-    max-width: 220px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .footer {
-    text-align: center;
-    margin-top: 32px;
-    color: var(--text-light);
-    font-size: 0.8rem;
-    opacity: 0.7;
-  }
+  .reason-select { margin-top: 12px; max-width: 220px; margin-left: auto; margin-right: auto; }
+  .footer { text-align: center; margin-top: 32px; color: var(--text-light); font-size: 0.8rem; opacity: 0.7; }
 
   .toast {
     position: fixed;
@@ -544,16 +378,11 @@
     box-shadow: 0 8px 24px rgba(0,0,0,0.2);
     transition: transform 0.3s ease;
     z-index: 1000;
+    max-width: 90%;
+    text-align: center;
   }
 
-  .toast.show {
-    transform: translateX(-50%) translateY(0);
-  }
-
-  @media print {
-    .actions-bar { display: none; }
-    body { background: white; }
-  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
 
   @media (max-width: 600px) {
     .header h1 { font-size: 1.4rem; }
@@ -563,7 +392,7 @@
 </style>
 </head>
 <body>
-  <div class="container" id="capture-zone">
+  <div class="container">
     <div class="header">
       <h1>🌿 Mon Planning Sportif</h1>
       <div class="week-info" id="weekInfo"></div>
@@ -573,33 +402,24 @@
     <div class="stats-bar" id="statsBar"></div>
 
     <div class="actions-bar">
-      <button class="btn btn-primary" onclick="generatePDF()">
-        📄 Générer PDF
-      </button>
-      <button class="btn btn-coach" onclick="sendToCoach()">
-        💬 Envoyer à Loris
-      </button>
-      <button class="btn btn-secondary" onclick="resetWeek()">
-        🔄 Reset
-      </button>
+      <button class="btn btn-primary" onclick="generatePDF()">📄 Générer PDF</button>
+      <button class="btn btn-coach" onclick="sendToCoach()">💬 Envoyer à Loris</button>
+      <button class="btn btn-secondary" onclick="resetWeek()">🔄 Reset</button>
     </div>
 
     <div class="week-grid" id="weekGrid"></div>
 
-    <div class="footer">
-      Made with 🌿 — Bon entraînement !
-    </div>
+    <div class="footer">Made with 🌿 — Bon entraînement !</div>
   </div>
 
   <div class="toast" id="toast"></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
   const days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
   const dayEmojis = { 'Lundi': '💪', 'Mardi': '🔥', 'Mercredi': '⚡', 'Jeudi': '🎯', 'Vendredi': '🚀', 'Samedi': '🌟', 'Dimanche': '☀️' };
   const moments = ['Matin', 'Midi', 'Soir'];
-  const disabledReasons = ['😴 Repos', '💼 Travail', '🚫 Indispo'];
+  const disabledReasons = ['Repos', 'Travail', 'Indispo'];
   
   const sports = {
     'Trail': { emoji: '🏃', sessions: ['Spécifique', 'EF', 'Longue'] },
@@ -625,7 +445,6 @@
     monday.setDate(now.getDate() - (now.getDay() === 0 ? 6 : now.getDay() - 1));
     const sunday = new Date(monday);
     sunday.setDate(monday.getDate() + 6);
-    
     const opts = { day: 'numeric', month: 'long' };
     return `Semaine du ${monday.toLocaleDateString('fr-FR', opts)} au ${sunday.toLocaleDateString('fr-FR', opts)}`;
   }
@@ -642,32 +461,21 @@
   }
 
   function ensureDay(day) {
-    if (!planning[day]) {
-      planning[day] = { disabled: false, reason: '', sessions: [] };
-    }
-    if (Array.isArray(planning[day])) {
-      planning[day] = { disabled: false, reason: '', sessions: planning[day] };
-    }
+    if (!planning[day]) planning[day] = { disabled: false, reason: '', sessions: [] };
+    if (Array.isArray(planning[day])) planning[day] = { disabled: false, reason: '', sessions: planning[day] };
   }
 
   function updateStats() {
-    let totalSessions = 0;
-    let activeDays = 0;
-    let offDays = 0;
-
+    let totalSessions = 0, activeDays = 0, offDays = 0;
     days.forEach(day => {
       ensureDay(day);
       const d = planning[day];
-      if (d.disabled) {
-        offDays++;
-      } else if (d.sessions.length > 0) {
+      if (d.disabled) offDays++;
+      else if (d.sessions.length > 0) {
         activeDays++;
-        d.sessions.forEach(s => {
-          if (s.sport) totalSessions++;
-        });
+        d.sessions.forEach(s => { if (s.sport) totalSessions++; });
       }
     });
-
     const bar = document.getElementById('statsBar');
     bar.innerHTML = `
       <div class="stat-pill">🔥 <span class="stat-num">${totalSessions}</span> séance${totalSessions > 1 ? 's' : ''}</div>
@@ -679,37 +487,30 @@
   function renderWeek() {
     const grid = document.getElementById('weekGrid');
     grid.innerHTML = '';
-    
     days.forEach(day => {
       ensureDay(day);
       const dayData = planning[day];
       const hasContent = dayData.sessions.length > 0 || dayData.disabled;
-      
       const card = document.createElement('div');
       card.className = 'day-card' + (dayData.disabled ? ' disabled' : '') + (hasContent ? ' has-content' : '');
-      
       const canAdd = dayData.sessions.length < 3;
-      
       card.innerHTML = `
         <div class="day-header">
           <span class="day-name">${dayEmojis[day]} ${day}</span>
           <div class="day-actions">
-            <button class="icon-btn ${dayData.disabled ? 'active' : ''}" onclick="toggleDisabled('${day}')" title="${dayData.disabled ? 'Réactiver' : 'Griser'}">
-              ${dayData.disabled ? '↺' : '🌙'}
-            </button>
-            <button class="icon-btn add" onclick="addSession('${day}')" ${!canAdd ? 'disabled' : ''} title="Ajouter une séance">+</button>
+            <button class="icon-btn ${dayData.disabled ? 'active' : ''}" onclick="toggleDisabled('${day}')" title="${dayData.disabled ? 'Réactiver' : 'Griser'}">${dayData.disabled ? '↺' : '🌙'}</button>
+            <button class="icon-btn add" onclick="addSession('${day}')" ${!canAdd ? 'disabled' : ''}>+</button>
           </div>
         </div>
         <div id="sessions-${day}"></div>
         <div class="disabled-label">
-          <div>${dayData.reason || '🌙 Jour off'}</div>
+          <div>${dayData.reason ? '🌙 ' + dayData.reason : '🌙 Jour off'}</div>
           <select class="reason-select" onchange="updateReason('${day}', this.value)">
             <option value="">-- Motif --</option>
             ${disabledReasons.map(r => `<option value="${r}" ${dayData.reason === r ? 'selected' : ''}>${r}</option>`).join('')}
           </select>
         </div>
       `;
-      
       grid.appendChild(card);
       if (!dayData.disabled) renderSessions(day);
     });
@@ -720,20 +521,14 @@
     const container = document.getElementById(`sessions-${day}`);
     if (!container) return;
     const sessions = planning[day].sessions;
-    
     if (sessions.length === 0) {
       container.innerHTML = '<div class="empty-state">Aucune séance prévue</div>';
       return;
     }
-    
     container.innerHTML = sessions.map((session, idx) => {
       const usedMoments = sessions.filter((_, i) => i !== idx).map(s => s.moment);
       const availableMoments = moments.filter(m => !usedMoments.includes(m) || m === session.moment);
-      
-      const sportSessions = session.sport && sports[session.sport].sessions.length > 0 
-        ? sports[session.sport].sessions 
-        : null;
-      
+      const sportSessions = session.sport && sports[session.sport].sessions.length > 0 ? sports[session.sport].sessions : null;
       const isComplete = session.sport && session.moment && (!sportSessions || session.type);
       const isEditing = session._editing === true;
       const showCompact = isComplete && !isEditing;
@@ -748,8 +543,8 @@
                 <span class="summary-text">${session.sport}${session.type ? ' — ' + session.type : ''}</span>
               </div>
               <div class="compact-actions">
-                <button class="edit-btn" onclick="event.stopPropagation(); editSession('${day}', ${idx})" title="Modifier">✏️</button>
-                <button class="delete-btn" onclick="event.stopPropagation(); deleteSession('${day}', ${idx})" title="Supprimer">✕</button>
+                <button class="edit-btn" onclick="event.stopPropagation(); editSession('${day}', ${idx})">✏️</button>
+                <button class="delete-btn" onclick="event.stopPropagation(); deleteSession('${day}', ${idx})">✕</button>
               </div>
             </div>
           </div>
@@ -768,8 +563,8 @@
           <div class="session-header">
             <span class="moment-badge">${session.moment || '⏱ Moment'}</span>
             <div style="display:flex; gap:4px;">
-              ${isComplete ? `<button class="delete-btn" onclick="collapseSession('${day}', ${idx})" title="Replier" style="color:var(--primary);">✓</button>` : ''}
-              <button class="delete-btn" onclick="deleteSession('${day}', ${idx})" title="Supprimer">✕</button>
+              ${isComplete ? `<button class="delete-btn" onclick="collapseSession('${day}', ${idx})" style="color:var(--primary);">✓</button>` : ''}
+              <button class="delete-btn" onclick="deleteSession('${day}', ${idx})">✕</button>
             </div>
           </div>
           <div class="select-group">
@@ -794,22 +589,15 @@
     }).join('');
   }
 
-  function editSession(day, idx) {
-    planning[day].sessions[idx]._editing = true;
-    renderSessions(day);
-  }
-
-  function collapseSession(day, idx) {
-    planning[day].sessions[idx]._editing = false;
-    renderSessions(day);
-  }
+  function editSession(day, idx) { planning[day].sessions[idx]._editing = true; renderSessions(day); }
+  function collapseSession(day, idx) { planning[day].sessions[idx]._editing = false; renderSessions(day); }
 
   function toggleDisabled(day) {
     ensureDay(day);
     planning[day].disabled = !planning[day].disabled;
     if (planning[day].disabled) {
       planning[day].sessions = [];
-      if (!planning[day].reason) planning[day].reason = '😴 Repos';
+      if (!planning[day].reason) planning[day].reason = 'Repos';
     } else {
       planning[day].reason = '';
     }
@@ -817,12 +605,7 @@
     renderWeek();
   }
 
-  function updateReason(day, value) {
-    ensureDay(day);
-    planning[day].reason = value;
-    savePlanning();
-    renderWeek();
-  }
+  function updateReason(day, value) { ensureDay(day); planning[day].reason = value; savePlanning(); renderWeek(); }
 
   function addSession(day) {
     ensureDay(day);
@@ -834,24 +617,15 @@
     renderWeek();
   }
 
-  function deleteSession(day, idx) {
-    planning[day].sessions.splice(idx, 1);
-    savePlanning();
-    renderWeek();
-  }
+  function deleteSession(day, idx) { planning[day].sessions.splice(idx, 1); savePlanning(); renderWeek(); }
 
   function updateSession(day, idx, field, value) {
     planning[day].sessions[idx][field] = value;
     if (field === 'sport') planning[day].sessions[idx].type = '';
-    
     const s = planning[day].sessions[idx];
     const sportSessions = s.sport && sports[s.sport].sessions.length > 0;
     const isComplete = s.sport && s.moment && (!sportSessions || s.type);
-    
-    if (isComplete) {
-      planning[day].sessions[idx]._editing = false;
-    }
-    
+    if (isComplete) planning[day].sessions[idx]._editing = false;
     savePlanning();
     renderSessions(day);
   }
@@ -865,84 +639,162 @@
     }
   }
 
+  // ===== GÉNÉRATION PDF NATIVE (sans capture écran) =====
   function generatePDF() {
-    const zone = document.getElementById('capture-zone');
-    const actionsBar = document.querySelector('.actions-bar');
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    
-    actionsBar.style.display = 'none';
-    showToast('📄 Génération du PDF...');
-    
-    setTimeout(() => {
-      html2canvas(zone, {
-        backgroundColor: '#f5f7f4',
-        scale: 2,
-        useCORS: true,
-        logging: false,
-        allowTaint: true,
-        windowWidth: zone.scrollWidth,
-        windowHeight: zone.scrollHeight
-      }).then(canvas => {
-        actionsBar.style.display = 'flex';
-        
-        const { jsPDF } = window.jspdf;
-        const imgData = canvas.toDataURL('image/png');
-        
-        const imgWidth = 210;
-        const pageHeight = 297;
-        const imgHeight = (canvas.height * imgWidth) / canvas.width;
-        
-        const pdf = new jsPDF({
-          orientation: 'portrait',
-          unit: 'mm',
-          format: 'a4'
-        });
-        
-        const finalHeight = imgHeight > pageHeight ? pageHeight - 10 : imgHeight;
-        const finalWidth = imgHeight > pageHeight ? (imgWidth * (pageHeight - 10) / imgHeight) : imgWidth;
-        const xOffset = (210 - finalWidth) / 2;
-        
-        pdf.addImage(imgData, 'PNG', xOffset, 5, finalWidth, finalHeight);
-        
-        const fileName = `planning-loris-${new Date().toISOString().split('T')[0]}.pdf`;
-        
-        if (isIOS && navigator.share) {
-          const pdfBlob = pdf.output('blob');
-          const file = new File([pdfBlob], fileName, { type: 'application/pdf' });
-          
-          if (navigator.canShare && navigator.canShare({ files: [file] })) {
-            navigator.share({
-              files: [file],
-              title: 'Mon planning sportif'
-            }).then(() => {
-              showToast('✅ PDF partagé !');
-            }).catch(err => {
-              if (err.name === 'AbortError') {
-                showToast('Partage annulé');
-              } else {
-                pdf.save(fileName);
-                showToast('✅ PDF prêt !');
-              }
-            });
-          } else {
-            window.open(pdf.output('bloburl'), '_blank');
-            showToast('✅ PDF ouvert ! Appuie sur Partager ⬆️');
-          }
-        } else {
-          pdf.save(fileName);
-          showToast('✅ PDF téléchargé !');
+    try {
+      showToast('📄 Génération du PDF...');
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+      
+      const pageWidth = 210;
+      const pageHeight = 297;
+      const margin = 15;
+      let y = margin;
+
+      // === HEADER ===
+      pdf.setFillColor(45, 90, 79);
+      pdf.rect(0, 0, pageWidth, 45, 'F');
+      
+      pdf.setTextColor(255, 255, 255);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(22);
+      pdf.text('Mon Planning Sportif', pageWidth / 2, 18, { align: 'center' });
+      
+      pdf.setFont('helvetica', 'normal');
+      pdf.setFontSize(11);
+      pdf.text(getWeekInfo(), pageWidth / 2, 27, { align: 'center' });
+      
+      pdf.setFontSize(10);
+      pdf.text('Coache par Loris', pageWidth / 2, 36, { align: 'center' });
+      
+      y = 55;
+
+      // === STATS ===
+      let total = 0, active = 0, off = 0;
+      days.forEach(day => {
+        ensureDay(day);
+        const d = planning[day];
+        if (d.disabled) off++;
+        else if (d.sessions.length > 0) {
+          active++;
+          d.sessions.forEach(s => { if (s.sport) total++; });
         }
-      }).catch((err) => {
-        actionsBar.style.display = 'flex';
-        console.error(err);
-        showToast('❌ Erreur de génération');
       });
-    }, 200);
+
+      pdf.setFillColor(232, 240, 226);
+      pdf.roundedRect(margin, y, pageWidth - 2 * margin, 14, 3, 3, 'F');
+      pdf.setTextColor(45, 90, 79);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(11);
+      const statsText = `${total} seance${total > 1 ? 's' : ''}  •  ${active} jour${active > 1 ? 's' : ''} actif${active > 1 ? 's' : ''}${off > 0 ? '  •  ' + off + ' off' : ''}`;
+      pdf.text(statsText, pageWidth / 2, y + 9, { align: 'center' });
+      y += 22;
+
+      // === JOURS ===
+      pdf.setFontSize(10);
+      
+      days.forEach(day => {
+        ensureDay(day);
+        const d = planning[day];
+        
+        // Saut de page si nécessaire
+        if (y > pageHeight - 40) {
+          pdf.addPage();
+          y = margin;
+        }
+
+        const blockHeight = d.disabled ? 16 : Math.max(16, 12 + d.sessions.length * 9);
+        
+        // Bloc jour
+        if (d.disabled) {
+          pdf.setFillColor(236, 236, 236);
+        } else if (d.sessions.length > 0) {
+          pdf.setFillColor(248, 250, 246);
+        } else {
+          pdf.setFillColor(255, 255, 255);
+        }
+        pdf.setDrawColor(224, 230, 226);
+        pdf.roundedRect(margin, y, pageWidth - 2 * margin, blockHeight, 3, 3, 'FD');
+
+        // Barre couleur en haut si actif
+        if (!d.disabled && d.sessions.length > 0) {
+          pdf.setFillColor(135, 168, 120);
+          pdf.rect(margin, y, pageWidth - 2 * margin, 1.5, 'F');
+        } else if (d.disabled) {
+          pdf.setFillColor(150, 150, 150);
+          pdf.rect(margin, y, pageWidth - 2 * margin, 1.5, 'F');
+        }
+
+        // Nom du jour
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(12);
+        pdf.setTextColor(d.disabled ? 120 : 45, d.disabled ? 120 : 90, d.disabled ? 120 : 79);
+        pdf.text(day, margin + 5, y + 8);
+
+        // Contenu
+        pdf.setFont('helvetica', 'normal');
+        pdf.setFontSize(10);
+        
+        if (d.disabled) {
+          pdf.setTextColor(120, 120, 120);
+          pdf.text(d.reason || 'Repos', pageWidth - margin - 5, y + 8, { align: 'right' });
+        } else if (d.sessions.length === 0) {
+          pdf.setTextColor(150, 150, 150);
+          pdf.setFont('helvetica', 'italic');
+          pdf.text('Aucune seance prevue', pageWidth - margin - 5, y + 8, { align: 'right' });
+        } else {
+          let lineY = y + 14;
+          d.sessions.forEach(s => {
+            if (!s.sport && !s.moment) return;
+            pdf.setTextColor(45, 90, 79);
+            pdf.setFont('helvetica', 'bold');
+            pdf.setFontSize(8);
+            const moment = (s.moment || '?').toUpperCase();
+            pdf.text(moment, margin + 8, lineY);
+            
+            pdf.setFont('helvetica', 'normal');
+            pdf.setFontSize(10);
+            pdf.setTextColor(30, 50, 40);
+            const sport = s.sport || '?';
+            const type = s.type ? ' — ' + s.type : '';
+            pdf.text(`${sport}${type}`, margin + 28, lineY);
+            
+            lineY += 7;
+          });
+        }
+
+        y += blockHeight + 4;
+      });
+
+      // === FOOTER ===
+      pdf.setFontSize(8);
+      pdf.setTextColor(150, 150, 150);
+      pdf.setFont('helvetica', 'italic');
+      pdf.text('Bon entrainement !', pageWidth / 2, pageHeight - 10, { align: 'center' });
+
+      // === EXPORT ===
+      const fileName = `planning-loris-${new Date().toISOString().split('T')[0]}.pdf`;
+      
+      if (isIOS) {
+        // iPhone : ouvre le PDF dans un nouvel onglet (Safari gère le partage natif)
+        const pdfBlob = pdf.output('blob');
+        const blobUrl = URL.createObjectURL(pdfBlob);
+        window.open(blobUrl, '_blank');
+        showToast('✅ PDF ouvert ! Tape sur ⬆️ pour partager');
+      } else {
+        // PC/Mac : téléchargement direct
+        pdf.save(fileName);
+        showToast('✅ PDF téléchargé !');
+      }
+    } catch (err) {
+      console.error(err);
+      showToast('❌ Erreur : ' + err.message);
+    }
   }
 
   function sendToCoach() {
     let message = `Salut Loris ! 👋\nVoici mon planning de la ${getWeekInfo().toLowerCase()} :\n\n`;
-    
     days.forEach(day => {
       ensureDay(day);
       const d = planning[day];
@@ -960,18 +812,12 @@
         });
       }
     });
-    
-    message += `\nJe t'envoie le PDF juste après 📄`;
+    message += `\nJe t'envoie le PDF juste apres 📄`;
     
     if (navigator.share) {
-      navigator.share({ 
-        title: 'Mon planning sportif',
-        text: message 
-      }).catch(() => {});
+      navigator.share({ title: 'Mon planning sportif', text: message }).catch(() => {});
     } else {
-      navigator.clipboard.writeText(message).then(() => {
-        showToast('✅ Message copié !');
-      });
+      navigator.clipboard.writeText(message).then(() => showToast('✅ Message copié !'));
     }
   }
 
