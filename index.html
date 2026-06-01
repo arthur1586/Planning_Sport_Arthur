@@ -739,29 +739,73 @@
     }
   }
 
-  function captureScreen() {
+function captureScreen() {
     const zone = document.getElementById('capture-zone');
     const actionsBar = document.querySelector('.actions-bar');
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    
     actionsBar.style.display = 'none';
     showToast('📸 Capture en cours...');
     
+    // Petit délai pour que le DOM se mette à jour
     setTimeout(() => {
       html2canvas(zone, {
         backgroundColor: '#f5f7f4',
         scale: 2,
-        useCORS: true
+        useCORS: true,
+        logging: false,
+        allowTaint: true,
+        windowWidth: zone.scrollWidth,
+        windowHeight: zone.scrollHeight
       }).then(canvas => {
         actionsBar.style.display = 'flex';
-        const link = document.createElement('a');
-        link.download = `planning-loris-${new Date().toISOString().split('T')[0]}.png`;
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-        showToast('✅ Image téléchargée !');
-      }).catch(() => {
+        const fileName = `planning-loris-${new Date().toISOString().split('T')[0]}.png`;
+        
+        canvas.toBlob(async (blob) => {
+          if (!blob) {
+            showToast('❌ Erreur de génération');
+            return;
+          }
+          
+          // Sur iPhone : utilise le partage natif
+          if (isIOS && navigator.share) {
+            try {
+              const file = new File([blob], fileName, { type: 'image/png' });
+              if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                await navigator.share({
+                  files: [file],
+                  title: 'Mon planning sportif'
+                });
+                showToast('✅ Image partagée !');
+                return;
+              }
+            } catch (err) {
+              if (err.name !== 'AbortError') {
+                console.error(err);
+              } else {
+                showToast('Partage annulé');
+                return;
+              }
+            }
+          }
+          
+          // Méthode classique : téléchargement (PC, Mac, Android)
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.download = fileName;
+          link.href = url;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          setTimeout(() => URL.revokeObjectURL(url), 1000);
+          showToast('✅ Image téléchargée !');
+        }, 'image/png');
+      }).catch((err) => {
         actionsBar.style.display = 'flex';
-        showToast('❌ Erreur de capture');
+        console.error(err);
+        showToast('❌ Erreur : ' + err.message);
       });
-    }, 100);
+    }, 200);
   }
 
   function sendToCoach() {
