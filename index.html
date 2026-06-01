@@ -337,6 +337,87 @@
     border-color: var(--accent);
   }
 
+  /* === MODE COMPACT (séance complète repliée) === */
+  .session.compact {
+    padding: 10px 12px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #e8f0e2 0%, #d8e6d0 100%);
+    border-color: var(--accent);
+  }
+
+  .session.compact .session-header,
+  .session.compact .select-group {
+    display: none;
+  }
+
+  .session.compact .session-summary {
+    display: flex;
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 8px;
+  }
+
+  .session.compact .summary-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .session.compact .summary-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 700;
+    color: var(--primary-dark);
+    font-size: 0.95rem;
+  }
+
+  .session.compact .compact-moment {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: white;
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .session.compact .compact-actions {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .session.compact .edit-btn {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 4px 6px;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+
+  .session.compact .edit-btn:hover {
+    background: white;
+    color: var(--primary);
+  }
+
+  .session.compact:active {
+    transform: scale(0.98);
+  }
+
   .session:last-child {
     margin-bottom: 0;
   }
@@ -550,7 +631,14 @@
   }
 
   function savePlanning() {
-    localStorage.setItem('planning', JSON.stringify(planning));
+    // On ne sauvegarde pas l'état "_editing" temporaire
+    const cleaned = JSON.parse(JSON.stringify(planning));
+    Object.keys(cleaned).forEach(day => {
+      if (cleaned[day].sessions) {
+        cleaned[day].sessions.forEach(s => delete s._editing);
+      }
+    });
+    localStorage.setItem('planning', JSON.stringify(cleaned));
     updateStats();
   }
 
@@ -567,7 +655,6 @@
     let totalSessions = 0;
     let activeDays = 0;
     let offDays = 0;
-    const sportsCount = {};
 
     days.forEach(day => {
       ensureDay(day);
@@ -577,10 +664,7 @@
       } else if (d.sessions.length > 0) {
         activeDays++;
         d.sessions.forEach(s => {
-          if (s.sport) {
-            totalSessions++;
-            sportsCount[s.sport] = (sportsCount[s.sport] || 0) + 1;
-          }
+          if (s.sport) totalSessions++;
         });
       }
     });
@@ -652,6 +736,29 @@
         : null;
       
       const isComplete = session.sport && session.moment && (!sportSessions || session.type);
+      const isEditing = session._editing === true;
+      const showCompact = isComplete && !isEditing;
+      
+      // === MODE COMPACT (séance complète repliée) ===
+      if (showCompact) {
+        return `
+          <div class="session compact" onclick="editSession('${day}', ${idx})">
+            <div class="session-summary">
+              <div class="summary-left">
+                <span class="compact-moment">${session.moment}</span>
+                <span class="sport-emoji">${sports[session.sport].emoji}</span>
+                <span class="summary-text">${session.sport}${session.type ? ' — ' + session.type : ''}</span>
+              </div>
+              <div class="compact-actions">
+                <button class="edit-btn" onclick="event.stopPropagation(); editSession('${day}', ${idx})" title="Modifier">✏️</button>
+                <button class="delete-btn" onclick="event.stopPropagation(); deleteSession('${day}', ${idx})" title="Supprimer">✕</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+      
+      // === MODE ÉDITION (séance en cours de remplissage) ===
       const summary = isComplete ? `
         <div class="session-summary">
           <span class="sport-emoji">${sports[session.sport].emoji}</span>
@@ -663,7 +770,10 @@
         <div class="session ${isComplete ? 'complete' : ''}">
           <div class="session-header">
             <span class="moment-badge">${session.moment || '⏱ Moment'}</span>
-            <button class="delete-btn" onclick="deleteSession('${day}', ${idx})" title="Supprimer">✕</button>
+            <div style="display:flex; gap:4px;">
+              ${isComplete ? `<button class="delete-btn" onclick="collapseSession('${day}', ${idx})" title="Replier" style="color:var(--primary);">✓</button>` : ''}
+              <button class="delete-btn" onclick="deleteSession('${day}', ${idx})" title="Supprimer">✕</button>
+            </div>
           </div>
           <div class="select-group">
             <select onchange="updateSession('${day}', ${idx}, 'moment', this.value)">
@@ -685,6 +795,16 @@
         </div>
       `;
     }).join('');
+  }
+
+  function editSession(day, idx) {
+    planning[day].sessions[idx]._editing = true;
+    renderSessions(day);
+  }
+
+  function collapseSession(day, idx) {
+    planning[day].sessions[idx]._editing = false;
+    renderSessions(day);
   }
 
   function toggleDisabled(day) {
@@ -712,7 +832,7 @@
     if (planning[day].sessions.length >= 3) return;
     const usedMoments = planning[day].sessions.map(s => s.moment);
     const nextMoment = moments.find(m => !usedMoments.includes(m)) || '';
-    planning[day].sessions.push({ moment: nextMoment, sport: '', type: '' });
+    planning[day].sessions.push({ moment: nextMoment, sport: '', type: '', _editing: true });
     savePlanning();
     renderWeek();
   }
@@ -726,6 +846,16 @@
   function updateSession(day, idx, field, value) {
     planning[day].sessions[idx][field] = value;
     if (field === 'sport') planning[day].sessions[idx].type = '';
+    
+    const s = planning[day].sessions[idx];
+    const sportSessions = s.sport && sports[s.sport].sessions.length > 0;
+    const isComplete = s.sport && s.moment && (!sportSessions || s.type);
+    
+    // Auto-repli quand la séance devient complète
+    if (isComplete) {
+      planning[day].sessions[idx]._editing = false;
+    }
+    
     savePlanning();
     renderSessions(day);
   }
@@ -739,7 +869,7 @@
     }
   }
 
-function captureScreen() {
+  function captureScreen() {
     const zone = document.getElementById('capture-zone');
     const actionsBar = document.querySelector('.actions-bar');
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -747,7 +877,6 @@ function captureScreen() {
     actionsBar.style.display = 'none';
     showToast('📸 Capture en cours...');
     
-    // Petit délai pour que le DOM se mette à jour
     setTimeout(() => {
       html2canvas(zone, {
         backgroundColor: '#f5f7f4',
@@ -780,12 +909,11 @@ function captureScreen() {
                 return;
               }
             } catch (err) {
-              if (err.name !== 'AbortError') {
-                console.error(err);
-              } else {
+              if (err.name === 'AbortError') {
                 showToast('Partage annulé');
                 return;
               }
+              console.error(err);
             }
           }
           
@@ -803,7 +931,7 @@ function captureScreen() {
       }).catch((err) => {
         actionsBar.style.display = 'flex';
         console.error(err);
-        showToast('❌ Erreur : ' + err.message);
+        showToast('❌ Erreur de capture');
       });
     }, 200);
   }
