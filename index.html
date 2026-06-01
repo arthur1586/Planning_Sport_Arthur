@@ -337,7 +337,6 @@
     border-color: var(--accent);
   }
 
-  /* === MODE COMPACT (séance complète repliée) === */
   .session.compact {
     padding: 10px 12px;
     cursor: pointer;
@@ -574,8 +573,8 @@
     <div class="stats-bar" id="statsBar"></div>
 
     <div class="actions-bar">
-      <button class="btn btn-primary" onclick="captureScreen()">
-        📸 Capturer
+      <button class="btn btn-primary" onclick="generatePDF()">
+        📄 Générer PDF
       </button>
       <button class="btn btn-coach" onclick="sendToCoach()">
         💬 Envoyer à Loris
@@ -595,6 +594,7 @@
   <div class="toast" id="toast"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
   const days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
   const dayEmojis = { 'Lundi': '💪', 'Mardi': '🔥', 'Mercredi': '⚡', 'Jeudi': '🎯', 'Vendredi': '🚀', 'Samedi': '🌟', 'Dimanche': '☀️' };
@@ -631,7 +631,6 @@
   }
 
   function savePlanning() {
-    // On ne sauvegarde pas l'état "_editing" temporaire
     const cleaned = JSON.parse(JSON.stringify(planning));
     Object.keys(cleaned).forEach(day => {
       if (cleaned[day].sessions) {
@@ -739,7 +738,6 @@
       const isEditing = session._editing === true;
       const showCompact = isComplete && !isEditing;
       
-      // === MODE COMPACT (séance complète repliée) ===
       if (showCompact) {
         return `
           <div class="session compact" onclick="editSession('${day}', ${idx})">
@@ -758,7 +756,6 @@
         `;
       }
       
-      // === MODE ÉDITION (séance en cours de remplissage) ===
       const summary = isComplete ? `
         <div class="session-summary">
           <span class="sport-emoji">${sports[session.sport].emoji}</span>
@@ -851,7 +848,6 @@
     const sportSessions = s.sport && sports[s.sport].sessions.length > 0;
     const isComplete = s.sport && s.moment && (!sportSessions || s.type);
     
-    // Auto-repli quand la séance devient complète
     if (isComplete) {
       planning[day].sessions[idx]._editing = false;
     }
@@ -869,13 +865,13 @@
     }
   }
 
-  function captureScreen() {
+  function generatePDF() {
     const zone = document.getElementById('capture-zone');
     const actionsBar = document.querySelector('.actions-bar');
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
     
     actionsBar.style.display = 'none';
-    showToast('📸 Capture en cours...');
+    showToast('📄 Génération du PDF...');
     
     setTimeout(() => {
       html2canvas(zone, {
@@ -888,50 +884,58 @@
         windowHeight: zone.scrollHeight
       }).then(canvas => {
         actionsBar.style.display = 'flex';
-        const fileName = `planning-loris-${new Date().toISOString().split('T')[0]}.png`;
         
-        canvas.toBlob(async (blob) => {
-          if (!blob) {
-            showToast('❌ Erreur de génération');
-            return;
-          }
+        const { jsPDF } = window.jspdf;
+        const imgData = canvas.toDataURL('image/png');
+        
+        const imgWidth = 210;
+        const pageHeight = 297;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        
+        const pdf = new jsPDF({
+          orientation: 'portrait',
+          unit: 'mm',
+          format: 'a4'
+        });
+        
+        const finalHeight = imgHeight > pageHeight ? pageHeight - 10 : imgHeight;
+        const finalWidth = imgHeight > pageHeight ? (imgWidth * (pageHeight - 10) / imgHeight) : imgWidth;
+        const xOffset = (210 - finalWidth) / 2;
+        
+        pdf.addImage(imgData, 'PNG', xOffset, 5, finalWidth, finalHeight);
+        
+        const fileName = `planning-loris-${new Date().toISOString().split('T')[0]}.pdf`;
+        
+        if (isIOS && navigator.share) {
+          const pdfBlob = pdf.output('blob');
+          const file = new File([pdfBlob], fileName, { type: 'application/pdf' });
           
-          // Sur iPhone : utilise le partage natif
-          if (isIOS && navigator.share) {
-            try {
-              const file = new File([blob], fileName, { type: 'image/png' });
-              if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                await navigator.share({
-                  files: [file],
-                  title: 'Mon planning sportif'
-                });
-                showToast('✅ Image partagée !');
-                return;
-              }
-            } catch (err) {
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            navigator.share({
+              files: [file],
+              title: 'Mon planning sportif'
+            }).then(() => {
+              showToast('✅ PDF partagé !');
+            }).catch(err => {
               if (err.name === 'AbortError') {
                 showToast('Partage annulé');
-                return;
+              } else {
+                pdf.save(fileName);
+                showToast('✅ PDF prêt !');
               }
-              console.error(err);
-            }
+            });
+          } else {
+            window.open(pdf.output('bloburl'), '_blank');
+            showToast('✅ PDF ouvert ! Appuie sur Partager ⬆️');
           }
-          
-          // Méthode classique : téléchargement (PC, Mac, Android)
-          const url = URL.createObjectURL(blob);
-          const link = document.createElement('a');
-          link.download = fileName;
-          link.href = url;
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          setTimeout(() => URL.revokeObjectURL(url), 1000);
-          showToast('✅ Image téléchargée !');
-        }, 'image/png');
+        } else {
+          pdf.save(fileName);
+          showToast('✅ PDF téléchargé !');
+        }
       }).catch((err) => {
         actionsBar.style.display = 'flex';
         console.error(err);
-        showToast('❌ Erreur de capture');
+        showToast('❌ Erreur de génération');
       });
     }, 200);
   }
@@ -957,7 +961,7 @@
       }
     });
     
-    message += `\nJe t'envoie la capture juste après 📸`;
+    message += `\nJe t'envoie le PDF juste après 📄`;
     
     if (navigator.share) {
       navigator.share({ 
